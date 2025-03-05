@@ -13,8 +13,11 @@
   },
   "ExpandedNodes": [
     "",
-    "\\out"
+    "\\include",
+    "\\out",
+    "\\out\\build",
+    "\\src"
   ],
-  "SelectedNode": "\\main.cpp",
+  "SelectedNode": "\\include\\CLI.h",
   "PreviewInSolutionExplorer": false
 }
