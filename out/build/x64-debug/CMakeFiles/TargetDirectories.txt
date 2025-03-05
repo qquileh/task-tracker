@@ -1,0 +1,3 @@
+D:/cpp/projects/task-tracker/out/build/x64-debug/CMakeFiles/task-tracker.dir
+D:/cpp/projects/task-tracker/out/build/x64-debug/CMakeFiles/edit_cache.dir
+D:/cpp/projects/task-tracker/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
