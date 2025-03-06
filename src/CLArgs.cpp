@@ -1,6 +1,10 @@
 #include "../include/CLArgs.h"
 
 
+CommandLineArguments::Command CommandLineArguments::getCommand() const {
+    return _command;
+}
+
 void CommandLineArguments::parseCommand(const std::string& cmd) {
     if (cmd == "add") {
         _command = Command::Add;

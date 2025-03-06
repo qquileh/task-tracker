@@ -21,6 +21,7 @@ public:
     };
 
 	CommandLineArguments(int argc, char* argv[]);
+    Command getCommand() const;
 
 private:
     Command _command;

@@ -14,8 +14,6 @@
   "ExpandedNodes": [
     "",
     "\\include",
-    "\\out",
-    "\\out\\build",
     "\\src"
   ],
   "SelectedNode": "\\src\\main.cpp",
