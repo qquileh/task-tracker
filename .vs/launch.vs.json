@@ -8,7 +8,7 @@
       "projectTarget": "task-tracker.exe",
       "name": "task-tracker.exe",
       "args": [
-        "cm", "asdm", "skmd"
+        "list", "done", "skmd"
       ]
     }
   ]

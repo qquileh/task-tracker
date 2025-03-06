@@ -1,0 +1,6 @@
+# ninja log v6
+24	1061	7629635269718930	CMakeFiles/task-tracker.dir/src/CLArgs.cpp.obj	1433dbc46618b628
+15	1450	7629635269634304	CMakeFiles/task-tracker.dir/src/main.cpp.obj	14fb569f25b5ad51
+1450	2084	7629635283937951	task-tracker.exe	75e236f8fec20807
+13	639	7629636507933223	CMakeFiles/task-tracker.dir/src/CLArgs.cpp.obj	1433dbc46618b628
+640	1023	7629636514260156	task-tracker.exe	75e236f8fec20807
