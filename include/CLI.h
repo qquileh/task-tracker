@@ -5,7 +5,18 @@
 #include "./task.h"
 
 
-class CLI {
+class CommandLineInterface {
 private:
 	std::vector<Task> tasks;
+
+public:
+	void addTask();
+	void updateTask();
+	void deleteTask();
+	void markInProgress();
+	void markDone();
+	void list();
+	void listDone();
+	void listTodo();
+	void listInProgress();
 };

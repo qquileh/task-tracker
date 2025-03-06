@@ -5,9 +5,9 @@
 
 class Task {
 private:
-	int id;
-	std::string description;
-	std::string status;
-	std::string createdAt;
-	std::string updatedAt;
+	int _id;
+	std::string _description;
+	std::string _status;
+	std::string _createdAt;
+	std::string _updatedAt;
 };
