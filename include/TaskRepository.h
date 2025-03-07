@@ -5,12 +5,12 @@
 #include "./task.h"
 
 
-class CommandLineInterface {
+class TaskRepository {
 private:
-	std::vector<Task> tasks;
+	std::vector<Task> _tasks;
 
 public:
-	CommandLineInterface() = default;
+	TaskRepository() = default;
 	void addTask();
 	void updateTask();
 	void deleteTask();

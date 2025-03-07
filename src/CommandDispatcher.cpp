@@ -1,20 +1,20 @@
 #include "../include/CommandDispatcher.h"
 
 
-CommandDispatcher::CommandDispatcher(CommandLineInterface& cli) {
-    _dispatcher[CommandLineArguments::Command::Add] = [&cli]() { cli.addTask(); };
-    _dispatcher[CommandLineArguments::Command::Update] = [&cli]() { cli.updateTask(); };
-    _dispatcher[CommandLineArguments::Command::Delete] = [&cli]() { cli.deleteTask(); };
-    _dispatcher[CommandLineArguments::Command::MarkInProgress] = [&cli]() { cli.markInProgress(); };
-    _dispatcher[CommandLineArguments::Command::MarkDone] = [&cli]() { cli.markDone(); };
-    _dispatcher[CommandLineArguments::Command::List] = [&cli]() { cli.list(); };
-    _dispatcher[CommandLineArguments::Command::ListDone] = [&cli]() { cli.listDone(); };
-    _dispatcher[CommandLineArguments::Command::ListTodo] = [&cli]() { cli.listTodo(); };
-    _dispatcher[CommandLineArguments::Command::ListInProgress] = [&cli]() { cli.listInProgress(); };
+CommandDispatcher::CommandDispatcher(TaskRepository& taskRepository) {
+    _dispatcher[CommandLineArguments::Command::Add] = [&taskRepository]() { taskRepository.addTask(); };
+    _dispatcher[CommandLineArguments::Command::Update] = [&taskRepository]() { taskRepository.updateTask(); };
+    _dispatcher[CommandLineArguments::Command::Delete] = [&taskRepository]() { taskRepository.deleteTask(); };
+    _dispatcher[CommandLineArguments::Command::MarkInProgress] = [&taskRepository]() { taskRepository.markInProgress(); };
+    _dispatcher[CommandLineArguments::Command::MarkDone] = [&taskRepository]() { taskRepository.markDone(); };
+    _dispatcher[CommandLineArguments::Command::List] = [&taskRepository]() { taskRepository.list(); };
+    _dispatcher[CommandLineArguments::Command::ListDone] = [&taskRepository]() { taskRepository.listDone(); };
+    _dispatcher[CommandLineArguments::Command::ListTodo] = [&taskRepository]() { taskRepository.listTodo(); };
+    _dispatcher[CommandLineArguments::Command::ListInProgress] = [&taskRepository]() { taskRepository.listInProgress(); };
 }
 
-void CommandDispatcher::ExecuteCommand(const CommandLineArguments::Command& cmd) const {
-    auto it = _dispatcher.find(cmd);
+void CommandDispatcher::ExecuteCommand(const CommandLineArguments& clArguments) const {
+    auto it = _dispatcher.find(clArguments.getCommand());
     if (it != _dispatcher.end()) {
         it->second();
     } else {

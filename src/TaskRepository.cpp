@@ -1,39 +1,39 @@
 #include <iostream>
-#include "../include/CLInterface.h"
+#include "../include/TaskRepository.h"
 
 
-void CommandLineInterface::addTask() {
+void TaskRepository::addTask() {
 	std::cout << "addTask()" << std::endl;
 }
 
-void CommandLineInterface::updateTask() {
+void TaskRepository::updateTask() {
 	std::cout << "updateTask()" << std::endl;
 }
 
-void CommandLineInterface::deleteTask() {
+void TaskRepository::deleteTask() {
 	std::cout << "deleteTask()" << std::endl;
 }
 
-void CommandLineInterface::markInProgress() {
+void TaskRepository::markInProgress() {
 	std::cout << "markInProgress()" << std::endl;
 }
 
-void CommandLineInterface::markDone() {
+void TaskRepository::markDone() {
 	std::cout << "markDone()" << std::endl;
 }
 
-void CommandLineInterface::list() {
+void TaskRepository::list() {
 	std::cout << "list()" << std::endl;
 }
 
-void CommandLineInterface::listDone() {
+void TaskRepository::listDone() {
 	std::cout << "listDone()" << std::endl;
 }
 
-void CommandLineInterface::listTodo() {
+void TaskRepository::listTodo() {
 	std::cout << "listTodo()" << std::endl;
 }
 
-void CommandLineInterface::listInProgress() {
+void TaskRepository::listInProgress() {
 	std::cout << "listInProgress()" << std::endl;
 }

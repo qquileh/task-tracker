@@ -12,7 +12,7 @@ endif()
 project ("task-tracker")
 
 # Добавьте источник в исполняемый файл этого проекта.
-add_executable (task-tracker "src/main.cpp"  "include/CLInterface.h" "include/task.h" "include/CLArgs.h" "src/CLArgs.cpp" "include/CommandDispatcher.h" "src/CommandDispatcher.cpp" "src/CLInterface.cpp")
+add_executable (task-tracker "src/main.cpp"  "include/TaskRepository.h" "include/task.h" "include/CLArgs.h" "src/CLArgs.cpp" "include/CommandDispatcher.h" "src/CommandDispatcher.cpp" "src/TaskRepository.cpp" )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET task-tracker PROPERTY CXX_STANDARD 20)
