@@ -4,7 +4,7 @@
 #include <unordered_map>
 
 #include "./CLArgs.h"
-#include "./CLInterface.h"
+#include "./TaskRepository.h"
 
 
 class CommandDispatcher {
@@ -12,6 +12,6 @@ private:
 	std::unordered_map<CommandLineArguments::Command, std::function<void()>> _dispatcher;
 
 public:
-	CommandDispatcher(CommandLineInterface& cli);
-	void ExecuteCommand(const CommandLineArguments::Command& cmd) const;
+	CommandDispatcher(TaskRepository& taskRepository);
+	void ExecuteCommand(const CommandLineArguments& clArguments) const;
 };
