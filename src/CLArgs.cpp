@@ -51,4 +51,3 @@ CommandLineArguments::CommandLineArguments(int argc, char* argv[]) {
         throw std::invalid_argument("No command provided!");
     }
 }
-

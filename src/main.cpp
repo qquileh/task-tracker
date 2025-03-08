@@ -1,6 +1,8 @@
 ﻿#include <iostream>
 #include "../include/CLArgs.h"
 #include "../include/CommandDispatcher.h"
+#include "../include/TaskRepository.h"
+
 
 int main(int argc, char* argv[]) {
     TaskRepository taskRepository;
