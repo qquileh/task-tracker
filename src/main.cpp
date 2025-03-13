@@ -2,6 +2,7 @@
 #include "../include/CLArgs.h"
 #include "../include/CommandDispatcher.h"
 #include "../include/TaskRepository.h"
+#include <pqxx/pqxx>
 
 
 int main(int argc, char* argv[]) {
