@@ -8,27 +8,32 @@
 class CommandLineArguments {
 public:
     enum class Command {
-        Add,
-        Update,
-        Delete,
+        AddStudent,
+        AddTask,
+        UpdateTask,
+        DeleteTask,
+        DeleteStudent,
         MarkInProgress,
         MarkDone,
-        List,
+        ListTasks,
+        ListStudents,
         ListDone,
-        ListTodo,
         ListInProgress,
+        ListToDo,
         Unknown
     };
 
-	CommandLineArguments(int argc, char* argv[]);
+    CommandLineArguments(int argc, char* argv[]);
     Command getCommand() const;
+    const std::vector<std::string>& getArguments() const;
 
 private:
     Command _command;
     std::vector<std::string> _arguments;
-    size_t _argStartNum = 2;
+    size_t _argStartNum = 1;
 
-    void parseCommand(const std::string& cmd);
+    void parseAddSubcommand(const std::string& subcmd);
+    void parseDeleteSubcommand(const std::string& subcmd);
     void parseListSubcommand(const std::string& subcmd);
     void parseArguments(int argc, char* argv[], size_t start);
 };

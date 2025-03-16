@@ -12,7 +12,7 @@ endif()
 project ("task-tracker")
 
 # Добавьте источник в исполняемый файл этого проекта.
-add_executable (task-tracker "src/main.cpp"  "include/TaskRepository.h" "include/task.h" "include/CLArgs.h" "src/CLArgs.cpp" "include/CommandDispatcher.h" "src/CommandDispatcher.cpp" "src/TaskRepository.cpp"  "include/ConnectionString.h")
+add_executable (task-tracker "src/main.cpp"  "include/TaskRepository.h" "include/task.h" "include/CLArgs.h" "src/CLArgs.cpp" "include/CommandDispatcher.h" "src/CommandDispatcher.cpp" "src/TaskRepository.cpp"  "include/DatabaseConnectionConfig.h" "src/DatabaseConnectionConfig.cpp")
 
 find_package(libpqxx REQUIRED)
 target_link_libraries(task-tracker PRIVATE libpqxx::pqxx)

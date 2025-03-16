@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <string>
 #include <unordered_map>
 
 #include "./CLArgs.h"
@@ -9,9 +10,9 @@
 
 class CommandDispatcher {
 private:
-    std::unordered_map<CommandLineArguments::Command, std::function<void(const CommandLineArguments&)>> _dispatcher;
+    std::unordered_map<CommandLineArguments::Command, std::function<std::string(const CommandLineArguments&)>> _dispatcher;
 
 public:
     CommandDispatcher(TaskRepository& taskRepository);
-    void ExecuteCommand(const CommandLineArguments& clArguments) const;
+    std::string generateQuery(const CommandLineArguments& clArguments) const;
 };

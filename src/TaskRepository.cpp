@@ -3,38 +3,62 @@
 #include "../include/CLArgs.h"
 
 
-void TaskRepository::addTask(const CommandLineArguments& clArgs) {
+std::string TaskRepository::addStudent(const CommandLineArguments& clArgs) {
+	std::cout << "addStudent()" << std::endl;
+	return "addStudent()";
+}
+
+std::string TaskRepository::addTask(const CommandLineArguments& clArgs) {
 	std::cout << "addTask()" << std::endl;
+	return "addTask()";
 }
 
-void TaskRepository::updateTask(const CommandLineArguments& clArgs) {
-	std::cout << "updateTask()" << std::endl;
+std::string TaskRepository::deleteStudent(const CommandLineArguments& clArgs) {
+	std::cout << "deleteStudent()" << std::endl;
+	return "deleteStudent()";
 }
 
-void TaskRepository::deleteTask(const CommandLineArguments& clArgs) {
+std::string TaskRepository::deleteTask(const CommandLineArguments& clArgs) {
 	std::cout << "deleteTask()" << std::endl;
+	return "deleteTask()";
 }
 
-void TaskRepository::markInProgress(const CommandLineArguments& clArgs) {
-	std::cout << "markInProgress()" << std::endl;
-}
-
-void TaskRepository::markDone(const CommandLineArguments& clArgs) {
-	std::cout << "markDone()" << std::endl;
-}
-
-void TaskRepository::list(const CommandLineArguments& clArgs) {
-	std::cout << "list()" << std::endl;
-}
-
-void TaskRepository::listDone(const CommandLineArguments& clArgs) {
+std::string TaskRepository::listDone(const CommandLineArguments& clArgs) {
 	std::cout << "listDone()" << std::endl;
+	return "listDone()";
 }
 
-void TaskRepository::listTodo(const CommandLineArguments& clArgs) {
-	std::cout << "listTodo()" << std::endl;
-}
-
-void TaskRepository::listInProgress(const CommandLineArguments& clArgs) {
+std::string TaskRepository::listInProgress(const CommandLineArguments& clArgs) {
 	std::cout << "listInProgress()" << std::endl;
+	return "listInProgress()";
+}
+
+std::string TaskRepository::listStudents(const CommandLineArguments& clArgs) {
+	std::cout << "listStudents()" << std::endl;
+	return "listStudents()";
+}
+
+std::string TaskRepository::listTasks(const CommandLineArguments& clArgs) {
+	std::cout << "listTasks()" << std::endl;
+	return "listTasks()";
+}
+
+std::string TaskRepository::listToDo(const CommandLineArguments& clArgs) {
+	std::cout << "listToDo()" << std::endl;
+	return "listToDo()";
+}
+
+std::string TaskRepository::markDone(const CommandLineArguments& clArgs) {
+	std::cout << "markDone()" << std::endl;
+	return "markDone()";
+}
+
+std::string TaskRepository::markInProgress(const CommandLineArguments& clArgs) {
+	std::cout << "markInProgress()" << std::endl;
+	return "markInProgress()";
+}
+
+std::string TaskRepository::updateTask(const CommandLineArguments& clArgs) {
+	std::cout << "updateTask()" << std::endl;
+	return "updateTask()";
 }
