@@ -87,19 +87,21 @@ CommandLineArguments::CommandLineArguments(int argc, char* argv[]) {
     switch (_command) {
         case Command::AddStudent:
             if (_arguments.size() < 2) {
-                throw std::invalid_argument("AddStudent requires first_name and last_name");
+                throw std::invalid_argument("AddStudent requires first_name and last_name!");
             }
             break;
         case Command::AddTask:
             if (_arguments.size() < 2) {
-                throw std::invalid_argument("AddTask requires title and at least one student_id");
+                throw std::invalid_argument("AddTask requires title and at least one student_id!");
             }
             break;
         case Command::DeleteStudent:
         case Command::DeleteTask:
         case Command::MarkInProgress:
         case Command::MarkDone:
-            if (_arguments.empty()) throw std::invalid_argument("Command requires ID");
+            if (_arguments.empty()) {
+                throw std::invalid_argument("Command requires ID!");
+            }
             break;
         default: break;
     }

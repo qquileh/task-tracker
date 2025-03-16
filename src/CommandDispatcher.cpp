@@ -22,7 +22,7 @@ std::string CommandDispatcher::generateQuery(const CommandLineArguments& clArgum
     if (it != _dispatcher.end()) {
         result = it->second(clArguments);
     } else {
-        throw std::invalid_argument("Unknown command");
+        throw std::invalid_argument("Unknown command!");
     }
     return result;
 }
