@@ -10,9 +10,9 @@
 
 class CommandDispatcher {
 private:
-    std::unordered_map<CommandLineArguments::Command, std::function<std::string(const CommandLineArguments&)>> _dispatcher;
+    std::unordered_map<CommandLineArguments::Command, std::function<void(const CommandLineArguments&)>> _dispatcher;
 
 public:
     CommandDispatcher(TaskRepository& taskRepository);
-    std::string generateQuery(const CommandLineArguments& clArguments) const;
+    void executeCommand(const CommandLineArguments& clArguments) const;
 };

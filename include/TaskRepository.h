@@ -2,22 +2,27 @@
 
 #include <vector>
 #include <string>
-#include "./task.h"
 #include "./CLArgs.h"
+#include "pqxx/pqxx"
 
 
 class TaskRepository {
+private:
+	pqxx::connection& _conn;
+
 public:
-    std::string addStudent(const CommandLineArguments& clArgs);
-    std::string addTask(const CommandLineArguments& clArgs);
-    std::string deleteStudent(const CommandLineArguments& clArgs);
-    std::string deleteTask(const CommandLineArguments& clArgs);
-    std::string listDone(const CommandLineArguments& clArgs);
-    std::string listInProgress(const CommandLineArguments& clArgs);
-    std::string listStudents(const CommandLineArguments& clArgs);
-    std::string listTasks(const CommandLineArguments& clArgs);
-    std::string listToDo(const CommandLineArguments& clArgs);
-    std::string markDone(const CommandLineArguments& clArgs);
-    std::string markInProgress(const CommandLineArguments& clArgs);
-    std::string updateTask(const CommandLineArguments& clArgs);
+	TaskRepository(pqxx::connection& conn);
+
+	void addStudent(const CommandLineArguments& clArgs);
+	void addTask(const CommandLineArguments& clArgs);
+	void deleteStudent(const CommandLineArguments& clArgs);
+	void deleteTask(const CommandLineArguments& clArgs);
+	void listDone(const CommandLineArguments& clArgs);
+	void listInProgress(const CommandLineArguments& clArgs);
+	void listStudents(const CommandLineArguments& clArgs);
+	void listTasks(const CommandLineArguments& clArgs);
+	void listToDo(const CommandLineArguments& clArgs);
+	void markDone(const CommandLineArguments& clArgs);
+	void markInProgress(const CommandLineArguments& clArgs);
+	void updateTask(const CommandLineArguments& clArgs);
 };

@@ -7,17 +7,25 @@
 
 
 int main(int argc, char* argv[]) {
-    TaskRepository taskRepository;
-    CommandDispatcher dispatcher(taskRepository);
     DatabaseConnectionConfig config;
 
     try {
         pqxx::connection conn(config.getConnectionString());
+
+        TaskRepository taskRepository(conn);
+        CommandDispatcher dispatcher(taskRepository);
+
         CommandLineArguments clArgs(argc, argv);
-        std::string query = dispatcher.generateQuery(clArgs);
+        dispatcher.executeCommand(clArgs);
+
         conn.close();
+    } catch (const std::invalid_argument& e) {
+        std::cerr << "Invalid argument error: " << e.what() << std::endl;
+        return 1;
     } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << std::endl;
+        std::cerr << "Unexpected error: " << e.what() << std::endl;
+        return 1;
     }
+
     return 0;
 }

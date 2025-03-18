@@ -103,6 +103,7 @@ CommandLineArguments::CommandLineArguments(int argc, char* argv[]) {
                 throw std::invalid_argument("Command requires ID!");
             }
             break;
-        default: break;
+        default:
+            break;
     }
 }
