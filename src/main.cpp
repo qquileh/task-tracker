@@ -1,7 +1,7 @@
 ﻿#include <iostream>
 #include "../include/CLArgs.h"
 #include "../include/CommandDispatcher.h"
-#include "../include/TaskRepository.h"
+#include "../include/CommandRepository.h"
 #include "../include/DatabaseConnectionConfig.h"
 #include <pqxx/pqxx>
 
@@ -12,8 +12,8 @@ int main(int argc, char* argv[]) {
     try {
         pqxx::connection conn(config.getConnectionString());
 
-        TaskRepository taskRepository(conn);
-        CommandDispatcher dispatcher(taskRepository);
+        CommandRepository commandRepository(conn);
+        CommandDispatcher dispatcher(commandRepository);
 
         CommandLineArguments clArgs(argc, argv);
         dispatcher.executeCommand(clArgs);

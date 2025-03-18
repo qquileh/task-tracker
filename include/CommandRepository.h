@@ -6,12 +6,12 @@
 #include "pqxx/pqxx"
 
 
-class TaskRepository {
+class CommandRepository {
 private:
 	pqxx::connection& _conn;
 
 public:
-	TaskRepository(pqxx::connection& conn);
+	CommandRepository(pqxx::connection& conn);
 
 	void addStudent(const CommandLineArguments& clArgs);
 	void addTask(const CommandLineArguments& clArgs);

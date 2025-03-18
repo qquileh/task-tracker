@@ -24,7 +24,7 @@ public:
     };
 
     CommandLineArguments(int argc, char* argv[]);
-    Command getCommand() const;
+    const Command& getCommand() const;
     const std::vector<std::string>& getArguments() const;
 
 private:

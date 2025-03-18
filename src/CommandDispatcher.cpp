@@ -1,7 +1,7 @@
 #include "../include/CommandDispatcher.h"
 
 
-CommandDispatcher::CommandDispatcher(TaskRepository& taskRepository) {
+CommandDispatcher::CommandDispatcher(CommandRepository& taskRepository) {
     _dispatcher[CommandLineArguments::Command::AddStudent] = [&taskRepository](const CommandLineArguments& clArgs) { taskRepository.addStudent(clArgs); };
     _dispatcher[CommandLineArguments::Command::AddTask] = [&taskRepository](const CommandLineArguments& clArgs) { taskRepository.addTask(clArgs); };
     _dispatcher[CommandLineArguments::Command::DeleteStudent] = [&taskRepository](const CommandLineArguments& clArgs) { taskRepository.deleteStudent(clArgs); };

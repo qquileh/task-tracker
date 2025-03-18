@@ -1,6 +1,6 @@
 #include "../include/CLArgs.h"
 
-CommandLineArguments::Command CommandLineArguments::getCommand() const {
+const CommandLineArguments::Command& CommandLineArguments::getCommand() const {
     return _command;
 }
 
