@@ -1,4 +1,5 @@
-#include "../include/CLArgs.h"
+#include "../include/CommandLineArguments.h"
+
 
 const CommandLineArguments::Command& CommandLineArguments::getCommand() const {
     return _command;

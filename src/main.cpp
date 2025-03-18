@@ -1,5 +1,5 @@
 ﻿#include <iostream>
-#include "../include/CLArgs.h"
+#include "../include/CommandLineArguments.h"
 #include "../include/CommandDispatcher.h"
 #include "../include/CommandRepository.h"
 #include "../include/DatabaseConnectionConfig.h"

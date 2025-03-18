@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <string>
-#include "./CLArgs.h"
+#include "./CommandLineArguments.h"
 #include "pqxx/pqxx"
 
 

@@ -1,6 +1,6 @@
 #include <iostream>
 #include "../include/CommandRepository.h"
-#include "../include/CLArgs.h"
+#include "../include/CommandLineArguments.h"
 #include <pqxx/pqxx>
 #include <vector>
 
