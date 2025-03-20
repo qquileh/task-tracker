@@ -57,6 +57,14 @@ void CommandLineArguments::parseMarkSubcommand(const std::string& subcmd) {
     }
 }
 
+void CommandLineArguments::parseUpdateSubcommand(const std::string& subcmd) {
+    if (subcmd == "task") {
+        _command = Command::UpdateTask;
+    } else {
+        throw std::invalid_argument("Invalid update subcommand: " + subcmd);
+    }
+}
+
 void CommandLineArguments::parseArguments(int argc, char* argv[], size_t start) {
     for (size_t i = start; i < argc; ++i) {
         _arguments.push_back(argv[i]);
@@ -92,6 +100,12 @@ CommandLineArguments::CommandLineArguments(int argc, char* argv[]) {
             throw std::invalid_argument("List command requires subcommand!");
         }
         parseListSubcommand(argv[2]);
+        _argStartNum = 3;
+    } else if (mainCmd == "update") {
+        if (argc < 3) {
+            throw std::invalid_argument("Update command requires subcommand!");
+        }
+        parseUpdateSubcommand(argv[2]);
         _argStartNum = 3;
     } else {
         throw std::invalid_argument("Unknown command: " + mainCmd);

@@ -37,6 +37,7 @@ private:
     void parseDeleteSubcommand(const std::string& subcmd);
     void parseListSubcommand(const std::string& subcmd);
     void parseMarkSubcommand(const std::string& subcmd);
+    void parseUpdateSubcommand(const std::string& subcmd);
 
     void parseArguments(int argc, char* argv[], size_t start);
 };

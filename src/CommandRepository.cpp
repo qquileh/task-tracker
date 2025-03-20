@@ -474,18 +474,27 @@ void CommandRepository::updateTask(const CommandLineArguments& clArgs) {
 	try {
 		pqxx::work txn(_conn);
 
-		pqxx::result result = txn.exec_params(
+		pqxx::result oldTitleResult = txn.exec_params(
+			"SELECT title FROM tasks WHERE task_id = $1",
+			taskId
+		);
+
+		if (oldTitleResult.empty()) {
+			throw std::runtime_error("Task with ID " + std::to_string(taskId) + " not found.");
+		}
+
+		std::string oldTitle = oldTitleResult[0]["title"].as<std::string>();
+
+		pqxx::result updateResult = txn.exec_params(
 			"UPDATE tasks SET title = $1, updated_at = CURRENT_TIMESTAMP "
 			"WHERE task_id = $2 RETURNING task_id, title",
 			newTitle,
 			taskId
 		);
 
-		if (result.empty()) {
+		if (updateResult.empty()) {
 			throw std::runtime_error("Task with ID " + std::to_string(taskId) + " not found.");
 		}
-
-		std::string oldTitle = result[0]["title"].as<std::string>();
 
 		txn.commit();
 		std::cout << "Task ID " << taskId << " title updated from '" << oldTitle
