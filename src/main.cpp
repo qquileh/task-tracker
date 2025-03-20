@@ -19,11 +19,8 @@ int main(int argc, char* argv[]) {
         dispatcher.executeCommand(clArgs);
 
         conn.close();
-    } catch (const std::invalid_argument& e) {
-        std::cerr << "Invalid argument error: " << e.what() << std::endl;
-        return 1;
     } catch (const std::exception& e) {
-        std::cerr << "Unexpected error: " << e.what() << std::endl;
+        std::cerr << "Error: " << e.what() << std::endl;
         return 1;
     }
 

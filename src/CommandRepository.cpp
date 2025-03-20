@@ -51,7 +51,8 @@ void CommandRepository::addTask(const CommandLineArguments& clArgs) {
 
 		pqxx::result result = txn.exec_params(
 			"INSERT INTO tasks (title, status) "
-			"VALUES ($1, 'not completed')",
+			"VALUES ($1, 'not completed') "
+			"RETURNING task_id",
 			title
 		);
 
@@ -74,7 +75,7 @@ void CommandRepository::addTask(const CommandLineArguments& clArgs) {
 		}
 		std::cout << std::endl;
 	} catch (const std::exception& e) {
-		throw std::runtime_error("Failed to add student: " + std::string(e.what()));
+		throw std::runtime_error("Failed to add task: " + std::string(e.what()));
 	}
 }
 
@@ -236,11 +237,11 @@ void CommandRepository::listStudents(const CommandLineArguments& clArgs) {
 		pqxx::work txn(_conn);
 
 		pqxx::result result = txn.exec(
-			"SELECT s.id, s.first_name, s.last_name, "
+			"SELECT s.student_id, s.first_name, s.last_name, "
 			"array_agg(st.task_id) AS task_ids "
 			"FROM students s "
-			"LEFT JOIN student_tasks st ON s.id = st.student_id "
-			"GROUP BY s.id, s.first_name, s.last_name"
+			"LEFT JOIN student_tasks st ON s.student_id = st.student_id "
+			"GROUP BY s.student_id, s.first_name, s.last_name"
 		);
 
 		if (result.empty()) {
@@ -254,7 +255,7 @@ void CommandRepository::listStudents(const CommandLineArguments& clArgs) {
 		std::cout << "-------------------------------------------------------------" << std::endl;
 
 		for (const auto& row : result) {
-			int studentId = row["id"].as<int>();
+			int studentId = row["student_id"].as<int>();
 			std::string firstName = row["first_name"].as<std::string>();
 			std::string lastName = row["last_name"].as<std::string>();
 			std::string taskIds = row["task_ids"].is_null() ? "None" : row["task_ids"].as<std::string>();
