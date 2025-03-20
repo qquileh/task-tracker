@@ -158,8 +158,12 @@ void CommandRepository::listDone(const CommandLineArguments& clArgs) {
 		pqxx::work txn(_conn);
 
 		pqxx::result result = txn.exec(
-			"SELECT task_id, title, created_at, updated_at FROM tasks "
-			"WHERE status = 'completed'"
+			"SELECT t.task_id, t.title, t.created_at, t.updated_at, "
+			"array_agg(st.student_id) AS student_ids "
+			"FROM tasks t "
+			"LEFT JOIN student_tasks st ON t.task_id = st.task_id "
+			"WHERE t.status = 'completed' "
+			"GROUP BY t.task_id, t.title, t.created_at, t.updated_at"
 		);
 
 		if (result.empty()) {
@@ -167,9 +171,9 @@ void CommandRepository::listDone(const CommandLineArguments& clArgs) {
 			return;
 		}
 
-		std::cout << "Completed Tasks:" << std::endl;
+		std::cout << "Tasks completed:" << std::endl;
 		std::cout << "-------------------------------------------------------------" << std::endl;
-		std::cout << "ID\tTitle\t\tCreated At\t\tUpdated At" << std::endl;
+		std::cout << "ID\tTitle\t\tCreated At\t\tUpdated At\t\tStudent IDs" << std::endl;
 		std::cout << "-------------------------------------------------------------" << std::endl;
 
 		for (const auto& row : result) {
@@ -177,8 +181,9 @@ void CommandRepository::listDone(const CommandLineArguments& clArgs) {
 			std::string title = row["title"].as<std::string>();
 			std::string createdAt = row["created_at"].as<std::string>();
 			std::string updatedAt = row["updated_at"].as<std::string>();
+			std::string studentIds = row["student_ids"].is_null() ? "None" : row["student_ids"].as<std::string>();
 
-			std::cout << taskId << "\t" << title << "\t" << createdAt << "\t" << updatedAt << std::endl;
+			std::cout << taskId << "\t" << title << "\t" << createdAt << "\t" << updatedAt << "\t" << studentIds << std::endl;
 		}
 
 		std::cout << "-------------------------------------------------------------" << std::endl;
@@ -192,8 +197,12 @@ void CommandRepository::listInProgress(const CommandLineArguments& clArgs) {
 		pqxx::work txn(_conn);
 
 		pqxx::result result = txn.exec(
-			"SELECT task_id, title, created_at, updated_at FROM tasks "
-			"WHERE status = 'in progress'"
+			"SELECT t.task_id, t.title, t.created_at, t.updated_at, "
+			"array_agg(st.student_id) AS student_ids "
+			"FROM tasks t "
+			"LEFT JOIN student_tasks st ON t.task_id = st.task_id "
+			"WHERE t.status = 'in progress' "
+			"GROUP BY t.task_id, t.title, t.created_at, t.updated_at"
 		);
 
 		if (result.empty()) {
@@ -203,7 +212,7 @@ void CommandRepository::listInProgress(const CommandLineArguments& clArgs) {
 
 		std::cout << "Tasks in progress:" << std::endl;
 		std::cout << "-------------------------------------------------------------" << std::endl;
-		std::cout << "ID\tTitle\t\tCreated At\t\tUpdated At" << std::endl;
+		std::cout << "ID\tTitle\t\tCreated At\t\tUpdated At\t\tStudent IDs" << std::endl;
 		std::cout << "-------------------------------------------------------------" << std::endl;
 
 		for (const auto& row : result) {
@@ -211,8 +220,9 @@ void CommandRepository::listInProgress(const CommandLineArguments& clArgs) {
 			std::string title = row["title"].as<std::string>();
 			std::string createdAt = row["created_at"].as<std::string>();
 			std::string updatedAt = row["updated_at"].as<std::string>();
+			std::string studentIds = row["student_ids"].is_null() ? "None" : row["student_ids"].as<std::string>();
 
-			std::cout << taskId << "\t" << title << "\t" << createdAt << "\t" << updatedAt << std::endl;
+			std::cout << taskId << "\t" << title << "\t" << createdAt << "\t" << updatedAt << "\t" << studentIds << std::endl;
 		}
 
 		std::cout << "-------------------------------------------------------------" << std::endl;
@@ -226,7 +236,11 @@ void CommandRepository::listStudents(const CommandLineArguments& clArgs) {
 		pqxx::work txn(_conn);
 
 		pqxx::result result = txn.exec(
-			"SELECT student_id, first_name, last_name FROM students"
+			"SELECT s.id, s.first_name, s.last_name, "
+			"array_agg(st.task_id) AS task_ids "
+			"FROM students s "
+			"LEFT JOIN student_tasks st ON s.id = st.student_id "
+			"GROUP BY s.id, s.first_name, s.last_name"
 		);
 
 		if (result.empty()) {
@@ -236,13 +250,14 @@ void CommandRepository::listStudents(const CommandLineArguments& clArgs) {
 
 		std::cout << "Students:" << std::endl;
 		std::cout << "-------------------------------------------------------------" << std::endl;
-		std::cout << "ID\tFirst Name\tLast Name" << std::endl;
+		std::cout << "ID\tFirst Name\tLast Name\tTask IDs" << std::endl;
 		std::cout << "-------------------------------------------------------------" << std::endl;
 
 		for (const auto& row : result) {
 			int studentId = row["id"].as<int>();
 			std::string firstName = row["first_name"].as<std::string>();
 			std::string lastName = row["last_name"].as<std::string>();
+			std::string taskIds = row["task_ids"].is_null() ? "None" : row["task_ids"].as<std::string>();
 
 			std::cout << studentId << "\t" << firstName << "\t\t" << lastName << std::endl;
 		}
@@ -258,7 +273,11 @@ void CommandRepository::listTasks(const CommandLineArguments& clArgs) {
 		pqxx::work txn(_conn);
 
 		pqxx::result result = txn.exec(
-			"SELECT task_id, title, created_at, updated_at FROM tasks"
+			"SELECT t.task_id, t.title, t.status, t.created_at, t.updated_at, "
+			"array_agg(st.student_id) AS student_ids "
+			"FROM tasks t "
+			"LEFT JOIN student_tasks st ON t.task_id = st.task_id "
+			"GROUP BY t.task_id, t.title, t.status, t.created_at, t.updated_at"
 		);
 
 		if (result.empty()) {
@@ -268,16 +287,19 @@ void CommandRepository::listTasks(const CommandLineArguments& clArgs) {
 
 		std::cout << "Tasks:" << std::endl;
 		std::cout << "-------------------------------------------------------------" << std::endl;
-		std::cout << "ID\tTitle\t\tCreated At\t\tUpdated At" << std::endl;
+		std::cout << "ID\tTitle\t\tStatus\t\tCreated At\t\tUpdated At\t\tStudent IDs" << std::endl;
 		std::cout << "-------------------------------------------------------------" << std::endl;
 
 		for (const auto& row : result) {
 			int taskId = row["task_id"].as<int>();
 			std::string title = row["title"].as<std::string>();
+			std::string status = row["status"].as<std::string>();
 			std::string createdAt = row["created_at"].as<std::string>();
 			std::string updatedAt = row["updated_at"].as<std::string>();
+			std::string studentIds = row["student_ids"].is_null() ? "None" : row["student_ids"].as<std::string>();
 
-			std::cout << taskId << "\t" << title << "\t" << createdAt << "\t" << updatedAt << std::endl;
+			std::cout << taskId << "\t" << title << "\t" << status << "\t"
+					  << createdAt << "\t" << updatedAt << "\t" << studentIds << std::endl;
 		}
 
 		std::cout << "-------------------------------------------------------------" << std::endl;
@@ -291,8 +313,12 @@ void CommandRepository::listToDo(const CommandLineArguments& clArgs) {
 		pqxx::work txn(_conn);
 
 		pqxx::result result = txn.exec(
-			"SELECT task_id, title, created_at, updated_at FROM tasks "
-			"WHERE status = 'not completed'"
+			"SELECT t.task_id, t.title, t.created_at, t.updated_at, "
+			"array_agg(st.student_id) AS student_ids "
+			"FROM tasks t "
+			"LEFT JOIN student_tasks st ON t.task_id = st.task_id "
+			"WHERE t.status = 'not completed' "
+			"GROUP BY t.task_id, t.title, t.created_at, t.updated_at"
 		);
 
 		if (result.empty()) {
@@ -302,7 +328,7 @@ void CommandRepository::listToDo(const CommandLineArguments& clArgs) {
 
 		std::cout << "Tasks to do:" << std::endl;
 		std::cout << "-------------------------------------------------------------" << std::endl;
-		std::cout << "ID\tTitle\t\tCreated At\t\tUpdated At" << std::endl;
+		std::cout << "ID\tTitle\t\tCreated At\t\tUpdated At\t\tStudent IDs" << std::endl;
 		std::cout << "-------------------------------------------------------------" << std::endl;
 
 		for (const auto& row : result) {
@@ -310,8 +336,9 @@ void CommandRepository::listToDo(const CommandLineArguments& clArgs) {
 			std::string title = row["title"].as<std::string>();
 			std::string createdAt = row["created_at"].as<std::string>();
 			std::string updatedAt = row["updated_at"].as<std::string>();
+			std::string studentIds = row["student_ids"].is_null() ? "None" : row["student_ids"].as<std::string>();
 
-			std::cout << taskId << "\t" << title << "\t" << createdAt << "\t" << updatedAt << std::endl;
+			std::cout << taskId << "\t" << title << "\t" << createdAt << "\t" << updatedAt << "\t" << studentIds << std::endl;
 		}
 
 		std::cout << "-------------------------------------------------------------" << std::endl;
@@ -321,13 +348,148 @@ void CommandRepository::listToDo(const CommandLineArguments& clArgs) {
 }
 
 void CommandRepository::markDone(const CommandLineArguments& clArgs) {
-	std::cout << "markDone()" << std::endl;
+	const auto& args = clArgs.getArguments();
+	if (args.empty()) {
+		throw std::invalid_argument("MarkDone requires task ID!");
+	}
+
+	int taskId;
+	try {
+		taskId = std::stoi(args[0]);
+	} catch (const std::invalid_argument&) {
+		throw std::invalid_argument("Invalid task ID: " + args[0]);
+	}
+
+	try {
+		pqxx::work txn(_conn);
+
+		pqxx::result result = txn.exec_params(
+			"UPDATE tasks SET status = 'completed', updated_at = CURRENT_TIMESTAMP "
+			"WHERE task_id = $1 RETURNING task_id, title",
+			taskId
+		);
+
+		if (result.empty()) {
+			throw std::runtime_error("Task with ID " + std::to_string(taskId) + " not found.");
+		}
+
+		std::string taskTitle = result[0]["title"].as<std::string>();
+
+		txn.commit();
+		std::cout << "Task '" << taskTitle << "' (ID: " << taskId
+			<< ") marked as done." << std::endl;
+	} catch (const std::exception& e) {
+		throw std::runtime_error("Failed to mark task as done: " + std::string(e.what()));
+	}
 }
 
 void CommandRepository::markInProgress(const CommandLineArguments& clArgs) {
-	std::cout << "markInProgress()" << std::endl;
+	const auto& args = clArgs.getArguments();
+	if (args.empty()) {
+		throw std::invalid_argument("MarkInProgress requires task ID!");
+	}
+
+	int taskId;
+	try {
+		taskId = std::stoi(args[0]);
+	} catch (const std::invalid_argument&) {
+		throw std::invalid_argument("Invalid task ID: " + args[0]);
+	}
+
+	try {
+		pqxx::work txn(_conn);
+
+		pqxx::result result = txn.exec_params(
+			"UPDATE tasks SET status = 'in progress', updated_at = CURRENT_TIMESTAMP "
+			"WHERE task_id = $1 RETURNING task_id, title",
+			taskId
+		);
+
+		if (result.empty()) {
+			throw std::runtime_error("Task with ID " + std::to_string(taskId) + " not found.");
+		}
+
+		std::string taskTitle = result[0]["title"].as<std::string>();
+
+		txn.commit();
+		std::cout << "Task '" << taskTitle << "' (ID: " << taskId
+			<< ") marked as in progress." << std::endl;
+	} catch (const std::exception& e) {
+		throw std::runtime_error("Failed to mark task as in progress: " + std::string(e.what()));
+	}
+}
+
+void CommandRepository::markToDo(const CommandLineArguments& clArgs) {
+	const auto& args = clArgs.getArguments();
+	if (args.empty()) {
+		throw std::invalid_argument("MarkToDo requires task ID!");
+	}
+
+	int taskId;
+	try {
+		taskId = std::stoi(args[0]);
+	} catch (const std::invalid_argument&) {
+		throw std::invalid_argument("Invalid task ID: " + args[0]);
+	}
+
+	try {
+		pqxx::work txn(_conn);
+
+		pqxx::result result = txn.exec_params(
+			"UPDATE tasks SET status = 'not completed', updated_at = CURRENT_TIMESTAMP "
+			"WHERE task_id = $1 RETURNING task_id, title",
+			taskId
+		);
+
+		if (result.empty()) {
+			throw std::runtime_error("Task with ID " + std::to_string(taskId) + " not found.");
+		}
+
+		std::string taskTitle = result[0]["title"].as<std::string>();
+
+		txn.commit();
+		std::cout << "Task '" << taskTitle << "' (ID: " << taskId
+			<< ") marked as to do." << std::endl;
+	} catch (const std::exception& e) {
+		throw std::runtime_error("Failed to mark task as to do: " + std::string(e.what()));
+	}
 }
 
 void CommandRepository::updateTask(const CommandLineArguments& clArgs) {
-	std::cout << "updateTask()" << std::endl;
+	const auto& args = clArgs.getArguments();
+	if (args.size() < 2) {
+		throw std::invalid_argument("UpdateTask requires task ID and new title!");
+	}
+
+	int taskId;
+	try {
+		taskId = std::stoi(args[0]);
+	} catch (const std::invalid_argument&) {
+		throw std::invalid_argument("Invalid task ID: " + args[0]);
+	}
+
+	const std::string& newTitle = args[1];
+
+	try {
+		pqxx::work txn(_conn);
+
+		pqxx::result result = txn.exec_params(
+			"UPDATE tasks SET title = $1, updated_at = CURRENT_TIMESTAMP "
+			"WHERE task_id = $2 RETURNING task_id, title",
+			newTitle,
+			taskId
+		);
+
+		if (result.empty()) {
+			throw std::runtime_error("Task with ID " + std::to_string(taskId) + " not found.");
+		}
+
+		std::string oldTitle = result[0]["title"].as<std::string>();
+
+		txn.commit();
+		std::cout << "Task ID " << taskId << " title updated from '" << oldTitle
+			<< "' to '" << newTitle << "'." << std::endl;
+	} catch (const std::exception& e) {
+		throw std::runtime_error("Failed to update task: " + std::string(e.what()));
+	}
 }

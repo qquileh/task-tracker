@@ -10,16 +10,17 @@ public:
     enum class Command {
         AddStudent,
         AddTask,
-        UpdateTask,
-        DeleteTask,
         DeleteStudent,
-        MarkInProgress,
-        MarkDone,
-        ListTasks,
-        ListStudents,
+        DeleteTask,
         ListDone,
         ListInProgress,
+        ListStudents,
+        ListTasks,
         ListToDo,
+        MarkDone,
+        MarkInProgress,
+        MarkToDo,
+        UpdateTask,
         Unknown
     };
 
@@ -35,5 +36,7 @@ private:
     void parseAddSubcommand(const std::string& subcmd);
     void parseDeleteSubcommand(const std::string& subcmd);
     void parseListSubcommand(const std::string& subcmd);
+    void parseMarkSubcommand(const std::string& subcmd);
+
     void parseArguments(int argc, char* argv[], size_t start);
 };

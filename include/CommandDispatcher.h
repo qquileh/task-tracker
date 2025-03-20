@@ -13,5 +13,5 @@ private:
 
 public:
     CommandDispatcher(CommandRepository& taskRepository);
-    void executeCommand(const CommandLineArguments& clArguments) const;
+    void executeCommand(const CommandLineArguments& clArgs) const;
 };

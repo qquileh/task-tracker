@@ -45,6 +45,18 @@ void CommandLineArguments::parseListSubcommand(const std::string& subcmd) {
     }
 }
 
+void CommandLineArguments::parseMarkSubcommand(const std::string& subcmd) {
+    if (subcmd == "done") {
+        _command = Command::MarkDone;
+    } else if (subcmd == "in-progress") {
+        _command = Command::MarkInProgress;
+    } else if (subcmd == "to-do") {
+        _command = Command::MarkToDo;
+    } else {
+        throw std::invalid_argument("Invalid mark subcommand: " + subcmd);
+    }
+}
+
 void CommandLineArguments::parseArguments(int argc, char* argv[], size_t start) {
     for (size_t i = start; i < argc; ++i) {
         _arguments.push_back(argv[i]);
@@ -69,10 +81,12 @@ CommandLineArguments::CommandLineArguments(int argc, char* argv[]) {
         }
         parseDeleteSubcommand(argv[2]);
         _argStartNum = 3;
-    } else if (mainCmd == "mark-in-progress") {
-        _command = Command::MarkInProgress;
-    } else if (mainCmd == "mark-done") {
-        _command = Command::MarkDone;
+    } else if (mainCmd == "mark") {
+        if (argc < 3) {
+            throw std::invalid_argument("Mark command requires subcommand!");
+        }
+        parseMarkSubcommand(argv[2]);
+        _argStartNum = 3;
     } else if (mainCmd == "list") {
         if (argc < 3) {
             throw std::invalid_argument("List command requires subcommand!");
@@ -100,6 +114,7 @@ CommandLineArguments::CommandLineArguments(int argc, char* argv[]) {
         case Command::DeleteTask:
         case Command::MarkInProgress:
         case Command::MarkDone:
+        case Command::MarkToDo:
             if (_arguments.empty()) {
                 throw std::invalid_argument("Command requires ID!");
             }

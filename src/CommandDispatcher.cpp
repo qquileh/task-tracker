@@ -13,13 +13,14 @@ CommandDispatcher::CommandDispatcher(CommandRepository& taskRepository) {
     _dispatcher[CommandLineArguments::Command::ListToDo] = [&taskRepository](const CommandLineArguments& clArgs) { taskRepository.listToDo(clArgs); };
     _dispatcher[CommandLineArguments::Command::MarkDone] = [&taskRepository](const CommandLineArguments& clArgs) { taskRepository.markDone(clArgs); };
     _dispatcher[CommandLineArguments::Command::MarkInProgress] = [&taskRepository](const CommandLineArguments& clArgs) { taskRepository.markInProgress(clArgs); };
+    _dispatcher[CommandLineArguments::Command::MarkToDo] = [&taskRepository](const CommandLineArguments& clArgs) { taskRepository.markToDo(clArgs); };
     _dispatcher[CommandLineArguments::Command::UpdateTask] = [&taskRepository](const CommandLineArguments& clArgs) { taskRepository.updateTask(clArgs); };
 }
 
-void CommandDispatcher::executeCommand(const CommandLineArguments& clArguments) const {
-    auto it = _dispatcher.find(clArguments.getCommand());
+void CommandDispatcher::executeCommand(const CommandLineArguments& clArgs) const {
+    auto it = _dispatcher.find(clArgs.getCommand());
     if (it != _dispatcher.end()) {
-        it->second(clArguments);
+        it->second(clArgs);
     } else {
         throw std::invalid_argument("Unknown command!");
     }

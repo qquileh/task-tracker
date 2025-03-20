@@ -24,5 +24,6 @@ public:
 	void listToDo(const CommandLineArguments& clArgs);
 	void markDone(const CommandLineArguments& clArgs);
 	void markInProgress(const CommandLineArguments& clArgs);
+	void markToDo(const CommandLineArguments& clArgs);
 	void updateTask(const CommandLineArguments& clArgs);
 };
