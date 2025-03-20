@@ -1,23 +1,27 @@
 #include "../include/CommandDispatcher.h"
 
 
-CommandDispatcher::CommandDispatcher(TaskRepository& taskRepository) {
-    _dispatcher[CommandLineArguments::Command::Add] = [&taskRepository]() { taskRepository.addTask(); };
-    _dispatcher[CommandLineArguments::Command::Update] = [&taskRepository]() { taskRepository.updateTask(); };
-    _dispatcher[CommandLineArguments::Command::Delete] = [&taskRepository]() { taskRepository.deleteTask(); };
-    _dispatcher[CommandLineArguments::Command::MarkInProgress] = [&taskRepository]() { taskRepository.markInProgress(); };
-    _dispatcher[CommandLineArguments::Command::MarkDone] = [&taskRepository]() { taskRepository.markDone(); };
-    _dispatcher[CommandLineArguments::Command::List] = [&taskRepository]() { taskRepository.list(); };
-    _dispatcher[CommandLineArguments::Command::ListDone] = [&taskRepository]() { taskRepository.listDone(); };
-    _dispatcher[CommandLineArguments::Command::ListTodo] = [&taskRepository]() { taskRepository.listTodo(); };
-    _dispatcher[CommandLineArguments::Command::ListInProgress] = [&taskRepository]() { taskRepository.listInProgress(); };
+CommandDispatcher::CommandDispatcher(CommandRepository& taskRepository) {
+    _dispatcher[CommandLineArguments::Command::AddStudent] = [&taskRepository](const CommandLineArguments& clArgs) { taskRepository.addStudent(clArgs); };
+    _dispatcher[CommandLineArguments::Command::AddTask] = [&taskRepository](const CommandLineArguments& clArgs) { taskRepository.addTask(clArgs); };
+    _dispatcher[CommandLineArguments::Command::DeleteStudent] = [&taskRepository](const CommandLineArguments& clArgs) { taskRepository.deleteStudent(clArgs); };
+    _dispatcher[CommandLineArguments::Command::DeleteTask] = [&taskRepository](const CommandLineArguments& clArgs) { taskRepository.deleteTask(clArgs); };
+    _dispatcher[CommandLineArguments::Command::ListDone] = [&taskRepository](const CommandLineArguments& clArgs) { taskRepository.listDone(clArgs); };
+    _dispatcher[CommandLineArguments::Command::ListInProgress] = [&taskRepository](const CommandLineArguments& clArgs) { taskRepository.listInProgress(clArgs); };
+    _dispatcher[CommandLineArguments::Command::ListStudents] = [&taskRepository](const CommandLineArguments& clArgs) { taskRepository.listStudents(clArgs); };
+    _dispatcher[CommandLineArguments::Command::ListTasks] = [&taskRepository](const CommandLineArguments& clArgs) { taskRepository.listTasks(clArgs); };
+    _dispatcher[CommandLineArguments::Command::ListToDo] = [&taskRepository](const CommandLineArguments& clArgs) { taskRepository.listToDo(clArgs); };
+    _dispatcher[CommandLineArguments::Command::MarkDone] = [&taskRepository](const CommandLineArguments& clArgs) { taskRepository.markDone(clArgs); };
+    _dispatcher[CommandLineArguments::Command::MarkInProgress] = [&taskRepository](const CommandLineArguments& clArgs) { taskRepository.markInProgress(clArgs); };
+    _dispatcher[CommandLineArguments::Command::MarkToDo] = [&taskRepository](const CommandLineArguments& clArgs) { taskRepository.markToDo(clArgs); };
+    _dispatcher[CommandLineArguments::Command::UpdateTask] = [&taskRepository](const CommandLineArguments& clArgs) { taskRepository.updateTask(clArgs); };
 }
 
-void CommandDispatcher::ExecuteCommand(const CommandLineArguments& clArguments) const {
-    auto it = _dispatcher.find(clArguments.getCommand());
+void CommandDispatcher::executeCommand(const CommandLineArguments& clArgs) const {
+    auto it = _dispatcher.find(clArgs.getCommand());
     if (it != _dispatcher.end()) {
-        it->second();
+        it->second(clArgs);
     } else {
-        throw std::invalid_argument("Unknown command");
+        throw std::invalid_argument("Unknown command!");
     }
 }
