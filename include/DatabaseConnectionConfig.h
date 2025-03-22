@@ -10,6 +10,7 @@ private:
 	std::string _password = "1111";
 	std::string _hostaddr = "127.0.0.1";
 	std::string _port = "5432";
+	std::string _connect_timeout = "5";
 
 public:
 	std::string getConnectionString() const;

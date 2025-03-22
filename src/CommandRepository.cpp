@@ -14,6 +14,7 @@ void CommandRepository::addStudent(const CommandLineArguments& clArgs) {
 
 	try {
 		pqxx::work txn(_conn);
+		txn.exec("SET statement_timeout TO 5000");
 
 		txn.exec_params(
 			"INSERT INTO students (first_name, last_name) "
@@ -48,6 +49,7 @@ void CommandRepository::addTask(const CommandLineArguments& clArgs) {
 
 	try {
 		pqxx::work txn(_conn);
+		txn.exec("SET statement_timeout TO 5000");
 
 		pqxx::result result = txn.exec_params(
 			"INSERT INTO tasks (title, status) "
@@ -94,6 +96,7 @@ void CommandRepository::deleteStudent(const CommandLineArguments& clArgs) {
 
 	try {
 		pqxx::work txn(_conn);
+		txn.exec("SET statement_timeout TO 5000");
 
 		pqxx::result result = txn.exec_params(
 			"DELETE FROM students " 
@@ -132,6 +135,7 @@ void CommandRepository::deleteTask(const CommandLineArguments& clArgs) {
 
 	try {
 		pqxx::work txn(_conn);
+		txn.exec("SET statement_timeout TO 5000");
 
 		pqxx::result result = txn.exec_params(
 			"DELETE FROM tasks "
@@ -157,6 +161,7 @@ void CommandRepository::deleteTask(const CommandLineArguments& clArgs) {
 void CommandRepository::listDone(const CommandLineArguments& clArgs) {
 	try {
 		pqxx::work txn(_conn);
+		txn.exec("SET statement_timeout TO 5000");
 
 		pqxx::result result = txn.exec(
 			"SELECT t.task_id, t.title, t.created_at, t.updated_at, "
@@ -196,6 +201,7 @@ void CommandRepository::listDone(const CommandLineArguments& clArgs) {
 void CommandRepository::listInProgress(const CommandLineArguments& clArgs) {
 	try {
 		pqxx::work txn(_conn);
+		txn.exec("SET statement_timeout TO 5000");
 
 		pqxx::result result = txn.exec(
 			"SELECT t.task_id, t.title, t.created_at, t.updated_at, "
@@ -235,6 +241,7 @@ void CommandRepository::listInProgress(const CommandLineArguments& clArgs) {
 void CommandRepository::listStudents(const CommandLineArguments& clArgs) {
 	try {
 		pqxx::work txn(_conn);
+		txn.exec("SET statement_timeout TO 5000");
 
 		pqxx::result result = txn.exec(
 			"SELECT s.student_id, s.first_name, s.last_name, "
@@ -272,6 +279,7 @@ void CommandRepository::listStudents(const CommandLineArguments& clArgs) {
 void CommandRepository::listTasks(const CommandLineArguments& clArgs) {
 	try {
 		pqxx::work txn(_conn);
+		txn.exec("SET statement_timeout TO 5000");
 
 		pqxx::result result = txn.exec(
 			"SELECT t.task_id, t.title, t.status, t.created_at, t.updated_at, "
@@ -312,6 +320,7 @@ void CommandRepository::listTasks(const CommandLineArguments& clArgs) {
 void CommandRepository::listToDo(const CommandLineArguments& clArgs) {
 	try {
 		pqxx::work txn(_conn);
+		txn.exec("SET statement_timeout TO 5000");
 
 		pqxx::result result = txn.exec(
 			"SELECT t.task_id, t.title, t.created_at, t.updated_at, "
@@ -363,6 +372,7 @@ void CommandRepository::markDone(const CommandLineArguments& clArgs) {
 
 	try {
 		pqxx::work txn(_conn);
+		txn.exec("SET statement_timeout TO 5000");
 
 		pqxx::result result = txn.exec_params(
 			"UPDATE tasks SET status = 'completed', updated_at = CURRENT_TIMESTAMP "
@@ -399,6 +409,7 @@ void CommandRepository::markInProgress(const CommandLineArguments& clArgs) {
 
 	try {
 		pqxx::work txn(_conn);
+		txn.exec("SET statement_timeout TO 5000");
 
 		pqxx::result result = txn.exec_params(
 			"UPDATE tasks SET status = 'in progress', updated_at = CURRENT_TIMESTAMP "
@@ -435,6 +446,7 @@ void CommandRepository::markToDo(const CommandLineArguments& clArgs) {
 
 	try {
 		pqxx::work txn(_conn);
+		txn.exec("SET statement_timeout TO 5000");
 
 		pqxx::result result = txn.exec_params(
 			"UPDATE tasks SET status = 'not completed', updated_at = CURRENT_TIMESTAMP "
@@ -473,6 +485,7 @@ void CommandRepository::updateTask(const CommandLineArguments& clArgs) {
 
 	try {
 		pqxx::work txn(_conn);
+		txn.exec("SET statement_timeout TO 5000");
 
 		pqxx::result oldTitleResult = txn.exec_params(
 			"SELECT title FROM tasks WHERE task_id = $1",
