@@ -45,8 +45,6 @@ void CommandRepository::addTask(const CommandLineArguments& clArgs) {
 		}
 	}
 
-
-
 	try {
 		pqxx::work txn(_conn);
 		txn.exec("SET statement_timeout TO 5000");
